@@ -25,19 +25,19 @@
              (.push args# opts#)))
        (doseq [child# children#]
          (flupot.core/push-child! args# child#))
-       (.apply ~elemf nil args#))))
+       (.apply js/React.createElement ~elemf nil args#))))
 
 (defn- flat-dom-form [elemf attrf attrm opts children]
   (cond
     (map? opts)
-    `(~elemf ~(attrm opts) ~@children)
+    `(js/React.createElement ~elemf ~(attrm opts) ~@children)
     (p/literal? opts)
-    `(~elemf nil ~opts ~@children)
+    `(js/React.createElement ~elemf nil ~opts ~@children)
     :else
     `(let [opts# ~opts]
        (if (map? opts#)
-         (~elemf (~attrf opts#) ~@children)
-         (~elemf nil opts# ~@children)))))
+         (js/React.createElement ~elemf (~attrf opts#) ~@children)
+         (js/React.createElement ~elemf nil opts# ~@children)))))
 
 (defn- nested-dom-form [elemf attrf attrm opts children]
   (let [child-syms (map (fn [c] [(if-not (p/literal? c) (gensym)) c]) children)
@@ -61,7 +61,7 @@
                        (.push ~args-sym opts#)))))
            ~@(for [[s c] child-syms]
                (if s `(flupot.core/push-child! ~args-sym ~s) `(.push ~args-sym ~c)))
-           (.apply ~elemf nil ~args-sym))
+           (.apply js/React.createElement ~elemf nil ~args-sym))
          ~(flat-dom-form elemf attrf attrm opts arguments)))))
 
 (defn compile-dom-form [elemf attrf attrm opts children]

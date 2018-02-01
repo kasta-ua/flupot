@@ -117,17 +117,11 @@
 (defmacro generate-attr-opts []
   (flupot/clj->js (mapm name name attr-opts)))
 
-(defn- dom-symbol [tag]
-  (symbol "js" (str "React.DOM." (name tag))))
-
 (defmacro define-dom-fns []
   `(do ~@(for [t tags]
            `(flupot/defelement-fn ~t
-              :elemf ~(dom-symbol t)
+              :elemf ~(name t)
               :attrf attrs->react))))
-
-(defn- boolean? [v]
-  (or (true? v) (false? v)))
 
 (defn- to-str [x]
   (cond
@@ -140,8 +134,10 @@
     (cond
       (and (or (vector? cls) (set? cls)) (every? p/literal? cls))
       (assoc m :class (str/join " " (core/map to-str cls)))
+
       (or (nil? cls) (string? cls) (number? cls) (boolean? cls))
       m
+
       :else
       (assoc m :class `(flupot.dom/fix-class ~cls)))))
 
@@ -151,7 +147,7 @@
 (defmacro define-dom-macros []
   `(do ~@(for [t tags]
            `(flupot/defelement-macro ~t
-              :elemf ~(dom-symbol t)
+              :elemf ~(name t)
               :attrf attrs->react
               :attrm attrs->react))))
 
