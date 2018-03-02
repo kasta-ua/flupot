@@ -19,7 +19,7 @@
            '(js/React.createElement "div" (cljs.core/js-obj "className" "foo") "bar"))))
 
   (testing "event listeners"
-    (is (= (macroexpand-1 '(flupot.dom/div {:onclick f} "foo"))
+    (is (= (macroexpand-1 '(flupot.dom/div {:on-click f} "foo"))
            '(js/React.createElement "div" (cljs.core/js-obj "onClick" (cljs.core/clj->js f)) "foo"))))
 
   (testing "literal style attribute"
@@ -32,20 +32,6 @@
     (is (= (macroexpand-1 '(flupot.dom/p {:style {:color x}} "foo"))
            '(js/React.createElement "p"
              (cljs.core/js-obj "style" (cljs.core/js-obj "color" (cljs.core/clj->js x)))
-             "foo"))))
-
-  (testing "classes as literal vectors"
-    (is (= (macroexpand-1 '(flupot.dom/p {:class ["foo" :bar 'baz]} "foo"))
-           '(js/React.createElement "p" (cljs.core/js-obj "className" "foo bar baz") "foo"))))
-
-  (testing "classes as literal sets"
-    (is (= (macroexpand-1 '(flupot.dom/p {:class #{"foo" :bar 'baz}} "foo"))
-           '(js/React.createElement "p" (cljs.core/js-obj "className" "foo bar baz") "foo"))))
-
-  (testing "classes as symbols"
-    (is (= (macroexpand-1 '(flupot.dom/p {:class c} "foo"))
-           '(js/React.createElement "p"
-             (cljs.core/js-obj "className" (cljs.core/clj->js (flupot.dom/fix-class c)))
              "foo"))))
 
   (testing "literal arguments with no option map"
