@@ -35,12 +35,6 @@ If the first argument is a map, it's used as the element's attributes:
 
 Special React options like `:key` are also supported.
 
-The `class` attribute may be specified as a collection:
-
-```clojure
-(dom/p {:class ["foo" "bar"]} "Hello World")
-```
-
 And the `style` attribute may be specified as a map:
 
 ```clojure

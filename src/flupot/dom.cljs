@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [map meta time])
   (:require-macros [flupot.dom :as dom])
   (:require cljsjs.react
+            [cljs.core :as core]
             [clojure.string :as str]
             [flupot.core :as flupot]))
 
@@ -10,7 +11,7 @@
   [input]
   (let [words      (str/split (name input) #"-")
         capitalize (->> (rest words)
-                        (map #(apply str (str/upper-case (first %)) (rest %))))]
+                        (core/map #(apply str (str/upper-case (first %)) (rest %))))]
     (apply str (first words) capitalize)))
 
 

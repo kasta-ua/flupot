@@ -1,4 +1,4 @@
-(defproject ua.modnakasta/flupot "0.5.1"
+(defproject ua.modnakasta/flupot "0.5.2"
   :description "ClojureScript functions for creating React elements"
   :url "https://github.com/weavejester/flupot"
   :license {:name "Eclipse Public License"

@@ -23,18 +23,6 @@
                         (core/map #(apply str (str/upper-case (first %)) (rest %))))]
     (apply str (first words) capitalize)))
 
-(defmacro define-dom-fns []
-  `(do ~@(for [t tags]
-           `(flupot/defelement-fn ~t
-              :elemf ~(name t)
-              :attrf attrs->react))))
-
-(defn- to-str [x]
-  (cond
-    (keyword? x)  (name x)
-    (p/quoted? x) (to-str (second x))
-    :else         (str x)))
-
 (defn- attrs->react [attrs]
   (flupot/clj->js
     (reduce-kv
@@ -47,6 +35,12 @@
           v))
       {}
       attrs)))
+
+(defmacro define-dom-fns []
+  `(do ~@(for [t tags]
+           `(flupot/defelement-fn ~t
+              :elemf ~(name t)
+              :attrf attrs->react))))
 
 (defmacro define-dom-macros []
   `(do ~@(for [t tags]
