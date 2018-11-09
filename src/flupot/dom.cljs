@@ -15,7 +15,7 @@
     (apply str (first words) capitalize)))
 
 
-(defn- attrs->react [attrs]
+(defn attrs->react [attrs]
   (reduce-kv
    (fn [o k v]
      (let [k (name k)]
